@@ -1,0 +1,76 @@
+﻿//homework 1
+private static bool Delete(string domain)
+{
+    byte[] value = Storage.Get(Storage.CurrentContext, domain);
+    if (value == null) return false;
+    if (value.Length != 20) return false;
+    if (!Runtime.CheckWiteness(value)) return false;
+    Storage.Delete(Storage.CurrentContext, domain);
+    return true;
+}
+
+//homework 2
+https://github.com/OTCGO/SmartContract/blob/master/SEAS.cs
+
+//homework 3
+//step 1
+POST http://seed9.ngd.network:10332
+{
+  "jsonrpc": "2.0",
+  "method": "invokefunction",
+  "params": ["0xfc732edee1efdf968c23c20a9628eaa5a6ccb934","decimals",[]],
+  "id": 3
+}
+RESPONSE:
+{
+    "jsonrpc": "2.0",
+    "id": 3,
+    "result": {
+        "script": "00c108646563696d616c736734b9cca6a5ea28960ac2238c96dfefe1de2e73fc",
+        "state": "HALT",
+        "gas_consumed": "0.159",
+        "stack": [
+            {
+                "type": "Integer",
+                "value": "2"
+            }
+        ]
+    }
+}
+decimals=2
+//step 2
+POST http://seed9.ngd.network:10332
+{
+  "jsonrpc": "2.0",
+  "method": "invokefunction",
+  "params": [
+    "0xfc732edee1efdf968c23c20a9628eaa5a6ccb934",
+    "balanceOf",
+    [
+      {
+        "type": "Hash160",
+        "value": "0xf0e522806601209e9599d5e9b4dfc59773c4a882"
+      }
+    ]
+  ],
+  "id": 3
+}
+RESPONSE:
+{
+    "jsonrpc": "2.0",
+    "id": 3,
+    "result": {
+        "script": "1482a8c47397c5dfb4e9d599959e2001668022e5f051c10962616c616e63654f666734b9cca6a5ea28960ac2238c96dfefe1de2e73fc",
+        "state": "HALT",
+        "gas_consumed": "0.358",
+        "stack": [
+            {
+                "type": "ByteArray",
+                "value": "2c01"
+            }
+        ]
+    }
+}
+Little-Endian ByteArray:2c01 --> BigInteger:300
+//step 3
+300/100 = 3 //balance

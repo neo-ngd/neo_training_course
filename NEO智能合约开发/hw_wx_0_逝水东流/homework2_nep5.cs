@@ -11,8 +11,8 @@ namespace NEP5
     {
         [DisplayName("transfer")]
         public static event Action<byte[], byte[], BigInteger> Transferred;
-												Ad1HKAATNmFT5buNgSxspbW68f4XVSssSw
-        private static readonly byte[] Owner = "ATrz9xhcwmRj15C3VV6e9gLfddpi90aida".ToScriptHash();
+
+        private static readonly byte[] Owner = "ATrz9xhcwmRj15C3VV6e9gLfddpi90aAsm".ToScriptHash();
                                                 
         private static readonly BigInteger TotalSupplyValue = 100000000;
 
@@ -53,9 +53,9 @@ namespace NEP5
             StorageMap contract = Storage.CurrentContext.CreateMap(nameof(contract));
             contract.Put("TotalSupply", TotalSupplyValue);
             StorageMap asset = Storage.CurrentContext.CreateMap(nameof(asset));
-            //The contract owner own the total nep-5 token
+			//The contract owner own the total nep-5 token
             asset.Put(Owner, TotalSupplyValue);
-            // This is the Event we should fire when NEP-5 asset transferred
+			// This is the Event we should fire when NEP-5 asset transferred
             Transferred(null, Owner, TotalSupplyValue);
             return true;
         }

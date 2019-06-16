@@ -7,22 +7,12 @@ Finish Domain Smart Contract
 ```csharp
 private static bool Delete(string domain)
 {
-    byte[] value = Storage.Get(Storage.CurrentContext, domain);
-    if (value == null) return false;
+    byte[] owner = Storage.Get(Storage.CurrentContext, domain);
+    if (owner == null) return false;
 
-    byte[] caller = ExecutionEngine.CallingScriptHash;
-    if (!Equals(value, caller)) return false;
+    if (!Runtime.CheckWitness(owner)) return false;
 
     Storage.Delete(Storage.CurrentContext, domain);
-    return true;
-}
-
-private static bool Equals(byte[] b1, byte[] b2)
-{
-    if (b1.Length != b2.Length) return false;
-    if (b1 == null || b2 == null) return false;
-    for (int i = 0; i < b1.Length; i++)
-         if (b1[i] != b2[i])  return false;
     return true;
 }
 ```

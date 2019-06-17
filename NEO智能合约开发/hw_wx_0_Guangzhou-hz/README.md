@@ -7,22 +7,12 @@ Finish Domain Smart Contract
 ```csharp
 private static bool Delete(string domain)
 {
-    byte[] value = Storage.Get(Storage.CurrentContext, domain);
-    if (value == null) return false;
+    byte[] owner = Storage.Get(Storage.CurrentContext, domain);
+    if (owner == null) return false;
 
-    byte[] caller = ExecutionEngine.CallingScriptHash;
-    if (!Equals(value, caller)) return false;
+    if (!Runtime.CheckWitness(owner)) return false;
 
     Storage.Delete(Storage.CurrentContext, domain);
-    return true;
-}
-
-private static bool Equals(byte[] b1, byte[] b2)
-{
-    if (b1.Length != b2.Length) return false;
-    if (b1 == null || b2 == null) return false;
-    for (int i = 0; i < b1.Length; i++)
-         if (b1[i] != b2[i])  return false;
     return true;
 }
 ```
@@ -38,6 +28,28 @@ Create a new NEP5 Smart Contract
 ## HW3
 
 Query NNC balance of ATgjfbkkgAgpfGe1DiKjLwvGSXZ7MMUjZU
+
+neon-js Code 
+```js
+var neon = require("@cityofzion/neon-js");
+
+client = new neon.rpc.RPCClient("http://seed2.aphelion-neo.com:10332");
+
+nnc = 'fc732edee1efdf968c23c20a9628eaa5a6ccb934';
+
+query = neon.default.create.query({ method: "getnep5balances", params: ['ATgjfbkkgAgpfGe1DiKjLwvGSXZ7MMUjZU'] });
+client.execute(query).then(res => {
+
+    for (var b of res.result.balance) {
+        if (b.asset_hash == nnc) {
+            console.log(b.amount);
+        }
+    }
+});
+```
+Result
+
+![res](./balance-js.jpg)
 
 Go Code
 ```go

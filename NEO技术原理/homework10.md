@@ -13,3 +13,4 @@
 4. 在私链上调用该合约，并进行 加、减、乘、除的四个操作，并通过 ApplicationLog 插件拿到输出结果。（ApplicationLog插件下载地址：https://github.com/neo-project/neo-plugins/releases）
 
 5. 调用合约，并进行除以0的除法调用操作，尝试分析返回值，并通过ApplicationLog 观察VM执行结果，包括虚拟机状态，栈数据情况。
+/Users/apple/Documents/neoSmartContract/homework/neo_training_course/NEO技术原理/homework1.md

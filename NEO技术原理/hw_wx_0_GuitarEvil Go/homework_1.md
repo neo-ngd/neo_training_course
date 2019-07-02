@@ -18,7 +18,39 @@ problem 1:base58check decoding
 
 
 problem 2: 
+import hashlib
 
+
+def sha256(data):
+    return hashlib.new('sha256', data).digest()
+
+
+def dsha256(data):
+    return sha256(sha256(data))
+
+
+def dhash256(left, right):
+    return dsha256(left + right)
+
+
+def calc_merkle_root(target_list):
+    if len(target_list) == 1:
+        return bytes.hex(target_list[0][::-1])
+    temp= []
+    #两次sha256
+    for i in range(0, len(target_list)-1, 2):
+        temp.append(dhash256(target_list[i], target_list[i+1]))
+    #奇数
+    if len(target_list) % 2 == 1:
+        temp.append(dhash256(target_list[-1], target_list[-1]))
+    return calc_merkle_root(temp)
+
+
+if __name__ == '__main__':
+    target_list = ['0000', '1111', '2222']
+    bytes_target_list = [bytes.fromhex(target) for target in target_list]
+    result = calc_merkle_root(bytes_target_list)
+    print('Result is ' + result)
 
 
 

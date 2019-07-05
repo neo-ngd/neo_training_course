@@ -40,7 +40,8 @@ namespace Neo.SmartContract
         {
             // To do
             byte[] owner = Storage.Get(Storage.CurrentContext, domain);
-            if (value != null) return false;
+            if (owner == null) return false;
+            if (owner.Length != 20) return false;
             if (!Runtime.CheckWitness(owner)) return false;
             Storage.Delete(Storage.CurrentContext, domain);
             return true;

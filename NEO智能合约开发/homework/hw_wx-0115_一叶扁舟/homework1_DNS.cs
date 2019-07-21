@@ -38,12 +38,13 @@ namespace Neo.SmartContract
 
         private static bool Delete(string domain)
         {
+            //Delete 应该检测一下owner，否则的话，是不是谁都能调用，然后随便delete一个已经存在的域名？？？
             // Check if  the owner is the same as the one who invoke the contract
-            if (!Runtime.CheckWitness(owner)) return false;
-            byte[] value = Storage.Get(Storage.CurrentContext, domain);
-            if (value = null) return false;
+            //if (!Runtime.CheckWitness(owner)) return false;
             
-            Storage.Put(Storage.CurrentContext, domain, owner);
+            byte[] value = Storage.Get(Storage.CurrentContext, domain);
+            if (value == null) return false;
+            Storage.Delete(Storage.CurrentContext, domain);
             return true;
         }
     }
